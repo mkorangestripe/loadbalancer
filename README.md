@@ -2,7 +2,7 @@
 
 This simulates a load balancer that distributes requests between multiple virtual machines.
 
-To start this application with directly with Flask:
+To start this application directly with Flask:
 
 ```shell script
 export FLASK_APP=load_balancer.py
