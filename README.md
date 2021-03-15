@@ -17,8 +17,8 @@ gunicorn -b 0.0.0.0:80 load_balancer:app
 To start this application with Docker, either of the following:
 
 ```shell script
-docker run --rm -it --network host mkorangestripe/loadbalancer:latest
-docker run -d --name cat_loadbalancer --network host mkorangestripe/loadbalancer:latest
+docker run -d --name cat_loadbalancer --network host mkorangestripe/loadbalancer:latest  # Linux
+docker run -d --name cat_loadbalancer --network bridge -p 80:80 mkorangestripe/loadbalancer:latest  # macOS
 ```
 
 To get the content from the fake VMs, use curl or a browser.  Run the curl command or reload the page multiple times to see unique content from each VM.
