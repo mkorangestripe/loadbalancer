@@ -1,5 +1,8 @@
---- # vms
-- vm1
-- vm3
-- vm2
-- vm4
+---
+# vm: [priority, ratio]
+# priority determines the order, not currently in use
+# ratio determines the amount of traffic
+  vm1: [1,2]
+  vm2: [2,1]
+  vm3: [3,2]
+  vm4: [4,1]

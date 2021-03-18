@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Create an application that simulates a load balancer and 
+# Create an application that simulates a load balancer and
 # is able to distribute the requests between 2 or more backend services.
 # Assume the most basic balancer algorithm: round robin.
 
@@ -25,40 +25,57 @@ Run the curl command or reload the page multiple times to see unique content fro
 curl 127.0.0.1:5000
 """
 
-from fake_vms import Fake_VMs
-from flask import Flask
 import os
 import sys
 import yaml
+from flask import Flask
+from fake_vms import FakeVMs
+
+
+class LoadBalancerMethod:
+    """Load balancer methods"""
+
+    def __init__(self, vms):
+        self.vm_hostnames = list(vms.keys())
+        self.vm_count = len(self.vm_hostnames)
+        self.ratio_i = 1
+        self.target_vm_i = 0
+        self.ratio = vms[self.vm_hostnames[self.target_vm_i]][self.ratio_i]
+
+    def round_robin_selector(self):
+        """Select the vm to take traffic with respect to ratio"""
+        vm = self.vm_hostnames[self.target_vm_i]
+        if self.ratio > 1:
+            self.ratio -= 1
+        elif self.target_vm_i == self.vm_count - 1:
+            self.target_vm_i = 0
+            self.ratio = vms[self.vm_hostnames[self.target_vm_i]][self.ratio_i]
+        else:
+            self.target_vm_i += 1
+            self.ratio = vms[self.vm_hostnames[self.target_vm_i]][self.ratio_i]
+        return vm
+
 
 host_list_file = 'vm_hostlist.yaml'
 
-if os.path.exists(host_list_file) == False:
+if os.path.exists(host_list_file) is False:
     print("\n" + str(host_list_file), "not found")
     sys.exit(1)
 
 with open(host_list_file, 'r') as f:
     vms_yaml = f.read()
 
-vms = yaml.load(vms_yaml)
-vm_count = len(vms)
+vms = yaml.safe_load(vms_yaml)
 
-fake_vms = Fake_VMs()
-
-target_vm = -1
-
-def round_robin_selector():
-    global target_vm
-    if target_vm == vm_count - 1:
-        target_vm = 0
-    else:
-        target_vm += 1
+fake_vms = FakeVMs()
+load_balancer_method = LoadBalancerMethod(vms)
 
 app = Flask(__name__)
 
 @app.route('/')
 def distrubute():
-    round_robin_selector()
-    call_vm_method = getattr(fake_vms, vms[target_vm])
+    """Distribute the load"""
+    vm = load_balancer_method.round_robin_selector()
+    call_vm_method = getattr(fake_vms, vm)
     call_vm_method()
-    return str(fake_vms.content + '\n') 
+    return str(fake_vms.content + '\n')
