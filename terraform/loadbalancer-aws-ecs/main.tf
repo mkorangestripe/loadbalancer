@@ -2,6 +2,22 @@ provider "aws" {
   region = "us-east-2"
 }
 
+resource "aws_vpc" "loadbalancer-app2" {
+  cidr_block = "10.0.0.0/16"
+
+    tags = {
+    Name = "ECS loadbalancer-app2 - VPC"
+  }
+}
+
+resource "aws_subnet" "loadbalancer-app2" {
+  vpc_id     = aws_vpc.loadbalancer-app2.id
+  cidr_block = "10.0.0.0/24"
+    tags = {
+    Name = "ECS loadbalancer-app2 - Public Subnet"
+  }
+}
+
 resource "aws_ecs_cluster" "loadbalancer-app2" {
   name = "loadbalancer-app2"
 }
@@ -53,6 +69,24 @@ resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+resource "aws_security_group" "loadbalancer-app2-security-group" {
+  name       = "loadbalancer-app2-security-group"
+  vpc_id     = aws_vpc.loadbalancer-app2.id
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = [aws_vpc.loadbalancer-app2.cidr_block]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_ecs_service" "loadbalancer-app2" {
   name            = "loadbalancer-app2"                              # service name
   cluster         = aws_ecs_cluster.loadbalancer-app2.name           # referencing the created cluster
@@ -64,31 +98,6 @@ resource "aws_ecs_service" "loadbalancer-app2" {
     # subnets          = [aws_default_subnet.default_az1.id, aws_default_subnet.default_az2.id, aws_default_subnet.default_az3.id]
     subnets          = [aws_subnet.loadbalancer-app2.id]
     assign_public_ip = true # Providing our containers with public IPs
+    security_groups  = [aws_security_group.loadbalancer-app2-security-group.id] # Setting the security group
   }
 }
-
-resource "aws_vpc" "loadbalancer-app2" {
-  cidr_block = "10.0.0.0/16"
-}
-
-resource "aws_subnet" "loadbalancer-app2" {
-  vpc_id     = aws_vpc.loadbalancer-app2.id
-  cidr_block = "10.0.0.0/24"
-}
-
-# Providing a reference to our default VPC
-# resource "aws_default_vpc" "default_vpc" {
-# }
-
-# Providing a reference to our default subnets
-# resource "aws_default_subnet" "subnet-ba1a03d2" {
-#   availability_zone = "eu-east-2a"
-# }
-
-# resource "aws_default_subnet" "default" {
-#   availability_zone = "eu-east-2b"
-# }
-
-# resource "aws_default_subnet" "default" {
-#   availability_zone = "eu-east-2c"
-# }
