@@ -1,9 +1,12 @@
+# Docker files
 Dockerfile
 docker-compose.yml
 .dockerignore
 
+# Git files
 .gitignore
 .git
 
-Pipfile.lock
 README.md
+Pipfile.lock
+terraform
