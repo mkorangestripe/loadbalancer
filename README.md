@@ -29,4 +29,4 @@ curl 127.0.0.1:5000  # Flask
 curl 127.0.0.1  # Gunicorn, Docker
 ```
 
-For AWS ECS deployment with terraform, see https://github.com/mkorangestripe/devops/terraform
+For AWS ECS deployment with terraform, see https://github.com/mkorangestripe/devops/tree/master/terraform
