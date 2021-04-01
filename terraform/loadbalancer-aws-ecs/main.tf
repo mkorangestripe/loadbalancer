@@ -1,9 +1,9 @@
 provider "aws" {
-  region = "us-east-2"
+  region = var.aws_region
 }
 
 resource "aws_vpc" "loadbalancer-app2" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.vpc_cidr_block
 
     tags = {
     Name = "ECS loadbalancer-app2 - VPC"
