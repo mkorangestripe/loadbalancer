@@ -2,19 +2,19 @@
 
 This simulates a load balancer that distributes requests between multiple virtual machines.
 
-To start this application directly with Flask:
+To start this application directly with **Flask**:
 
 ```shell script
 export FLASK_APP=load_balancer.py
 flask run
 ```
 
-To start this application directly with Gunicorn:
+To start this application directly with **Gunicorn**:
 ```shell script
 gunicorn -b 0.0.0.0:80 load_balancer:app
 ```
 
-To start this application with Docker, any of the following:
+To start this application with **Docker**, any of the following:
 
 ```shell script
 docker-compose up -d
@@ -29,4 +29,4 @@ curl 127.0.0.1:5000  # Flask
 curl 127.0.0.1  # Gunicorn, Docker
 ```
 
-For AWS ECS deployment with terraform, see https://github.com/mkorangestripe/devops/terraform
+For **AWS ECS** deployment with terraform, see https://github.com/mkorangestripe/devops/terraform
