@@ -4,13 +4,13 @@ This simulates a load balancer that distributes requests between multiple virtua
 
 To start this application directly with **Flask**:
 
-```shell script
+```
 export FLASK_APP=load_balancer.py
 flask run
 ```
 
 To start this application directly with **Gunicorn**:
-```shell script
+```
 gunicorn -b 0.0.0.0:80 load_balancer:app
 ```
 
