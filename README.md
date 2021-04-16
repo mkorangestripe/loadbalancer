@@ -19,7 +19,7 @@ To start this application with **Docker**, any of the following:
 ```shell script
 docker-compose up -d
 docker run -d --name cat_loadbalancer --network host mkorangestripe/loadbalancer:latest  # Linux
-docker run -d --name cat_loadbalancer --network bridge -p 80:80 mkorangestripe/loadbalancer:latest  # macOS
+docker run -d --name cat_loadbalancer -p 80:80 mkorangestripe/loadbalancer:latest  # macOS
 ```
 
 To get the content from the fake VMs, use curl or a browser.  Run the curl command or reload the page multiple times to see unique content from each VM.
