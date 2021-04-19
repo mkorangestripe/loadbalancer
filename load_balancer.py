@@ -1,18 +1,5 @@
 #!/usr/bin/env python3
 
-# Create an application that simulates a load balancer and
-# is able to distribute the requests between 2 or more backend services.
-# Assume the most basic balancer algorithm: round robin.
-
-# Extras:
-# * Dynamic. The configuration is not hardcoded, it might be changed
-# without modifying the actual application code, thus including a config
-# file with any well-known markup language like yaml is a plus.
-# * Healthcheck. The ability to take off/on or serve the response
-# if any of the backend services is alive.
-# * Sorry page. If no backends are available avoid sending a "service
-# unavailable (503)" response.
-
 """
 This simulates a load balancer that distributes requests between multiple virtual machines.
 
