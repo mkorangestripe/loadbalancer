@@ -13,7 +13,8 @@ docker-compose up
 To start this application with **docker**:
 
 ```shell script
-docker run -d -p 80:80 --name cat_loadbalancer --hostname cat_loadbalancer mkorangestripe/loadbalancer:latest
+docker run -d -p 80:80 --name cat_loadbalancer --hostname cat_loadbalancer \
+mkorangestripe/loadbalancer:2.0.0  # at least version 2
 
 docker run -d -P --name cheetah --hostname cheetah nginxdemos/hello
 docker run -d -P --name ocelot --hostname ocelot nginxdemos/hello
