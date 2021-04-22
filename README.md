@@ -2,6 +2,8 @@
 
 This simulates a load balancer that distributes requests between multiple virtual machines.
 
+For the multi container branch of this project, see [multi_container](https://github.com/mkorangestripe/loadbalancer/tree/multi_container)
+
 To start this application directly with **Flask**:
 
 ```
