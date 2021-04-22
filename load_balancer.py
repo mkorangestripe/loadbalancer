@@ -1,22 +1,14 @@
 #!/usr/bin/env python3
 
 """
-This simulates a load balancer that distributes requests between multiple virtual machines.
-
-To start this application with Flask:
-export FLASK_APP=load_balancer.py
-flask run
-
-To get the content from the fake VMs, use curl or a browser.
-Run the curl command or reload the page multiple times to see unique content from each VM.
-curl 127.0.0.1:5000
+This load balancer distributes requests between multiple Docker containers.
 """
 
 import os
+import requests
 import sys
 import yaml
 from flask import Flask
-from fake_vms import FakeVMs
 
 
 class LoadBalancerMethod:
@@ -54,7 +46,6 @@ with open(host_list_file, 'r') as f:
 
 vms = yaml.safe_load(vms_yaml)
 
-fake_vms = FakeVMs()
 load_balancer_method = LoadBalancerMethod(vms)
 
 app = Flask(__name__)
@@ -63,6 +54,5 @@ app = Flask(__name__)
 def distrubute():
     """Distribute the load"""
     vm = load_balancer_method.round_robin_selector()
-    call_vm_method = getattr(fake_vms, vm)
-    call_vm_method()
-    return str(fake_vms.content + '\n')
+    r = requests.get('http://' + vm)
+    return str(r.text)

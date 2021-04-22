@@ -1,8 +1,38 @@
-# version: '3'
+# The container_name isn't necessary but makes the 'docker ps' output nicer.
+# Setting the hostname makes the web pages shows the hostname and not the container ID.
+# Forwarding the ports to the web servers is to allow direct connections for testing.
+version: '3.9'
 services:
-  loadbalancer-app-service:
+  loadbalancer:
+    container_name: cat_loadbalancer 
     build: .
     volumes:
       - .:/usr/src/app
     ports:
       - 80:80
+    environment:
+     - "NODES=cheetah:80 ocelot:80 mountain-lion:80 jaguarundi:80"
+  cheetah:
+    container_name: cheetah
+    hostname: cheetah
+    image: nginxdemos/hello
+    ports:
+      - 8080:80
+  ocelot:
+    container_name: ocelot
+    hostname: ocelot
+    image: nginxdemos/hello
+    ports:
+      - 8081:80
+  mountain-lion:
+    container_name: mountain-lion
+    hostname: mountain-lion
+    image: nginxdemos/hello
+    ports:
+      - 8082:80
+  jaguarundi:
+    container_name: jaguarundi
+    hostname: jaguarundi
+    image: nginxdemos/hello
+    ports:
+      - 8083:80

@@ -1,32 +1,30 @@
 # Load Balancer
 
-This simulates a load balancer that distributes requests between multiple virtual machines.
+This load balancer distributes requests between multiple Docker containers running Nginx.
 
-To start this application directly with **Flask**:
+For the single container version of this load balancer, see [v1.3.0](https://github.com/mkorangestripe/loadbalancer/tree/v1.3.0)
 
-```
-export FLASK_APP=load_balancer.py
-flask run
-```
-
-To start this application directly with **Gunicorn**:
-```
-gunicorn -b 0.0.0.0:80 load_balancer:app
-```
-
-To start this application with **Docker**, any of the following:
+To start this application with **docker-compose**:
 
 ```shell script
-docker-compose up -d
-docker run -d --name cat_loadbalancer --network host mkorangestripe/loadbalancer:latest  # Linux
-docker run -d --name cat_loadbalancer -p 80:80 mkorangestripe/loadbalancer:latest  # macOS
+docker-compose up
 ```
 
-To get the content from the fake VMs, use curl or a browser.  Run the curl command or reload the page multiple times to see unique content from each VM.
+To start this application with **docker**:
 
 ```shell script
-curl 127.0.0.1:5000  # Flask
-curl 127.0.0.1  # Gunicorn, Docker
+docker run -d -p 80:80 --name cat_loadbalancer --hostname cat_loadbalancer mkorangestripe/loadbalancer:latest
+
+docker run -d -P --name cheetah --hostname cheetah nginxdemos/hello
+docker run -d -P --name ocelot --hostname ocelot nginxdemos/hello
+docker run -d -P --name mountain-lion --hostname mountain-lion nginxdemos/hello
+docker run -d -P --name jaguarundi --hostname jaguarundi nginxdemos/hello
+```
+
+To see the response from the loadbalancer, use curl or a browser.  Run the curl command or reload the page multiple times to see a unique page from each container.
+
+```shell script
+curl -s 127.0.0.1 | grep -e 'Server' -e Date | awk '{print $2,$3}'
 ```
 
 For **AWS ECS** deployment with terraform, see https://github.com/mkorangestripe/devops/tree/master/terraform

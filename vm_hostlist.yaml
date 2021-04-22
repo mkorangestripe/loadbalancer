@@ -2,7 +2,7 @@
 # vm: [priority, ratio]
 # priority determines the order, not currently in use
 # ratio determines the amount of traffic
-  vm1: [1,2]
-  vm2: [2,1]
-  vm3: [3,2]
-  vm4: [4,1]
+  cheetah: [1,2]
+  ocelot: [2,1]
+  mountain-lion: [3,2]
+  jaguarundi: [4,1]

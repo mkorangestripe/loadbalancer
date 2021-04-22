@@ -1,5 +1,6 @@
 class FakeVMs:
     """
+    With version 2 of this load balancer this class is no longer being used.
     These methods emulate virtual machines that the load balancer distrubutes traffic to.
     The bigger cats take more traffic.
     """
