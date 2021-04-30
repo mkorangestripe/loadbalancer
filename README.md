@@ -29,3 +29,5 @@ curl -s 127.0.0.1 | grep -e 'Server' -e Date | awk '{print $2,$3}'
 ```
 
 For **AWS ECS** deployment with terraform, see https://github.com/mkorangestripe/devops/tree/master/terraform
+
+For **Kubernetes** deployment, see https://github.com/mkorangestripe/devops/tree/master/kubernetes
