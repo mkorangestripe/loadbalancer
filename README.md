@@ -28,7 +28,7 @@ To see the response from the loadbalancer, use curl or a browser.  Run the curl 
 curl -s 127.0.0.1 | grep -e 'Server' -e Date | awk '{print $2,$3}'
 ```
 
-![Output from docker compose](docker-compose-cat-loadbalancer.png)
+![Output from docker compose](sample-output/docker-compose-cat-loadbalancer.png)
 
 For **AWS ECS** deployment with terraform, see https://github.com/mkorangestripe/devops/tree/master/terraform
 
