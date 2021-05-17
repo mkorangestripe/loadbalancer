@@ -7,7 +7,7 @@ For the single container version of this load balancer, see [v1.3.0](https://git
 To start this application with **docker-compose**:
 
 ```shell script
-docker-compose up
+docker compose up
 ```
 
 To start this application with **docker**:
@@ -27,6 +27,8 @@ To see the response from the loadbalancer, use curl or a browser.  Run the curl 
 ```shell script
 curl -s 127.0.0.1 | grep -e 'Server' -e Date | awk '{print $2,$3}'
 ```
+
+![Output from docker compose](docker-compose-cat-loadbalancer.png)
 
 For **AWS ECS** deployment with terraform, see https://github.com/mkorangestripe/devops/tree/master/terraform
 
