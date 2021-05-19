@@ -10,7 +10,7 @@ To start this application with **docker-compose**:
 docker compose up
 ```
 
-To start this application with **docker**:
+To start the containers individually:
 
 ```shell script
 docker run -d -p 80:80 --name cat_loadbalancer --hostname cat_loadbalancer \
