@@ -1,0 +1,79 @@
+# The container_name isn't necessary but makes the 'docker ps' output nicer.
+# Setting the hostname makes the web pages shows the hostname and not the container ID.
+# Forwarding the ports to the web servers is to allow direct connections for testing.
+# Export to Datadog API key on the host running Docker:
+# export DD_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+version: '3.9'
+services:
+  datadog:
+    image: 'datadog/agent:7.31.1'
+    environment:
+      - DD_API_KEY
+      - DD_HOSTNAME=clbdev1
+      - DD_LOGS_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_DOCKER_LABELS_AS_TAGS={"my.custom.label.team":"team"}
+      - DD_TAGS='env:dev'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - /proc/:/host/proc/:ro  # doesn't exist on macOS
+      # - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro  # doesn't exist on macOS
+  loadbalancer:
+    container_name: cat_loadbalancer 
+    build: .
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 80:80
+    environment:
+     - "NODES=cheetah:80 ocelot:80 mountain-lion:80 jaguarundi:80"
+    labels:
+      com.datadoghq.tags.env: 'dev'
+      com.datadoghq.tags.service: 'cat_loadbalancer-service'
+      com.datadoghq.tags.version: '2.1'
+      my.custom.label.team: 'cat_loadbalancer'
+  cheetah:
+    container_name: cheetah
+    hostname: cheetah
+    image: nginxdemos/hello
+    ports:
+      - 8080:80
+    labels:
+      com.datadoghq.tags.env: 'dev'
+      com.datadoghq.tags.service: 'cheetah-service'
+      com.datadoghq.tags.version: '2.1'
+      my.custom.label.team: 'cheetah'
+  ocelot:
+    container_name: ocelot
+    hostname: ocelot
+    image: nginxdemos/hello
+    ports:
+      - 8081:80
+    labels:
+      com.datadoghq.tags.env: 'dev'
+      com.datadoghq.tags.service: 'ocelot-service'
+      com.datadoghq.tags.version: '2.1'
+      my.custom.label.team: 'ocelot'
+  mountain-lion:
+    container_name: mountain-lion
+    hostname: mountain-lion
+    image: nginxdemos/hello
+    ports:
+      - 8082:80
+    labels:
+      com.datadoghq.tags.env: 'dev'
+      com.datadoghq.tags.service: 'mountain-lion-service'
+      com.datadoghq.tags.version: '2.1'
+      my.custom.label.team: 'mountain-lion'
+  jaguarundi:
+    container_name: jaguarundi
+    hostname: jaguarundi
+    image: nginxdemos/hello
+    ports:
+      - 8083:80
+    labels:
+      com.datadoghq.tags.env: 'dev'
+      com.datadoghq.tags.service: 'jaguarundi-service'
+      com.datadoghq.tags.version: '2.1'
+      my.custom.label.team: 'jaguarundi'
