@@ -6,10 +6,11 @@
 version: '3.9'
 services:
   datadog:
+    container_name: datadog_agent
     image: 'datadog/agent:7.31.1'
     environment:
       - DD_API_KEY
-      - DD_HOSTNAME=clbdev1
+      - DD_HOSTNAME=catlbdev1
       - DD_LOGS_ENABLED=true
       - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
       - DD_PROCESS_AGENT_ENABLED=true
@@ -19,9 +20,22 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - /proc/:/host/proc/:ro  # doesn't exist on macOS
       # - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro  # doesn't exist on macOS
+  dogstatsd:
+    container_name: dogstatsd
+    image: datadog/dogstatsd
+    environment:
+      - DD_API_KEY
+      - DD_HOSTNAME=catlbdev1
+      - DD_DOGSTATSD_SOCKET=/var/run/datadog/dsd.socket
+      - DD_ENABLE_METADATA_COLLECTION=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - /proc/:/host/proc/:ro  # doesn't exist on macOS
+      # - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro  # doesn't exist on macOS
+      # - /var/run/datadog:/var/run/datadog
   loadbalancer:
-    container_name: cat_loadbalancer 
-    build: .
+    container_name: cat_loadbalancer
+    build: Dockerfile.loadbalancer
     volumes:
       - .:/usr/src/app
     ports:
@@ -77,3 +91,13 @@ services:
       com.datadoghq.tags.service: 'jaguarundi-service'
       com.datadoghq.tags.version: '2.1'
       my.custom.label.team: 'jaguarundi'
+  # powershell-custom-metrics:
+  #   container_name: powershell-custom-metrics
+  #   build: Dockerfile.powershell-custom-metrics
+  #   volumes:
+  #     - .:/usr/src/app
+  #   labels:
+  #     com.datadoghq.tags.env: 'dev'
+  #     com.datadoghq.tags.service: 'powershell-custom-metrics-service'
+  #     com.datadoghq.tags.version: '2.1'
+  #     my.custom.label.team: 'powershell-custom-metrics'
