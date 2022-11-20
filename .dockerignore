@@ -4,9 +4,16 @@ docker-compose.yml
 .dockerignore
 
 # Git files
+.github
 .gitignore
 .git
 
-README.md
+# Python files
+__pycache__
+.pylintrc
+Pipfile
 Pipfile.lock
+
+README.md
 terraform
+sample-output
