@@ -2,7 +2,7 @@
 
 This load balancer distributes requests between multiple Docker containers running Nginx.
 
-For the single container version of this load balancer, see [v1.3.0](https://github.com/mkorangestripe/loadbalancer/tree/v1.3.0)
+For the single container version of this load balancer, see the [single_container](https://github.com/mkorangestripe/loadbalancer/tree/single_container) branch.
 
 To start this application with **docker-compose**:
 
@@ -30,6 +30,7 @@ curl -s 127.0.0.1 | grep -e 'Server' -e Date | awk '{print $2,$3}'
 
 ![Output from docker compose](sample-output/docker-compose-cat-loadbalancer.png)
 
-For **AWS ECS** deployment with terraform, see https://github.com/mkorangestripe/devops/tree/master/terraform
+For **AWS ECS** deployment with terraform, see the [single_container](https://github.com/mkorangestripe/loadbalancer/tree/single_container) branch.
 
-For **Kubernetes** deployment, see https://github.com/mkorangestripe/devops/tree/master/kubernetes
+For **Kubernetes** deployment, see the [single_container](https://github.com/mkorangestripe/loadbalancer/tree/single_container) branch.
+
