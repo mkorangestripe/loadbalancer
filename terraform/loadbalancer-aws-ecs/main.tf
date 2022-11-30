@@ -123,7 +123,7 @@ resource "aws_ecs_service" "loadbalancer-app2" {
   cluster         = aws_ecs_cluster.loadbalancer-app2.id             # referencing the created cluster
   task_definition = aws_ecs_task_definition.loadbalancer-app2.arn    # referencing the task the service will start
   launch_type     = "FARGATE"
-  desired_count   = 0 # the number of containers to deploy
+  desired_count   = 1 # the number of containers to deploy
 
   network_configuration {
     subnets          = [aws_subnet.loadbalancer-app2.id]
