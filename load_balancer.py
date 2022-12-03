@@ -36,13 +36,13 @@ class LoadBalancerMethod:
         return vm
 
 
-host_list_file = 'vm_hostlist.yaml'
+HOST_LIST_FILE = 'vm_hostlist.yaml'
 
-if os.path.exists(host_list_file) is False:
-    print("\n" + str(host_list_file), "not found")
+if os.path.exists(HOST_LIST_FILE) is False:
+    print("\n" + str(HOST_LIST_FILE), "not found")
     sys.exit(1)
 
-with open(host_list_file, 'r', encoding="utf-8") as f:
+with open(HOST_LIST_FILE, 'r', encoding="utf-8") as f:
     vms_yaml = f.read()
 
 vms_dict = yaml.safe_load(vms_yaml)
